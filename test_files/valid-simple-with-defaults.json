@@ -1,0 +1,22 @@
+{
+  "New Header Zero": {
+    "old_column": "Old Header Zero",
+    "default": "DEFAULT FOR ZERO"
+  },
+  "New Header One": {
+    "old_column": "Old Header One",
+    "default": "DEFAULT FOR ONE"
+  },
+  "New Header Two": {
+    "old_column": "Old Header Two",
+    "default": "DEFAULT FOR TWO"
+  },
+  "New Header Three": {
+    "old_column": "Old Header Three",
+    "default": "DEFAULT FOR THREE"
+  },
+  "New Header Four": {
+    "old_column": "Old Header Four",
+    "default": "DEFAULT FOR FOUR"
+  }
+}
