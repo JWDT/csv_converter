@@ -20,6 +20,8 @@ class MyTestCase(unittest.TestCase):
             CSVConverter(config_file=os.path.join(fo, 'non-existant-file-hfhffhjksdfhjksfhjk'))
         with self.assertRaises(Exception):
             CSVConverter(config_file=os.path.join(fo, 'real-but-invalid.json'))
+        with self.assertRaises(Exception):
+            CSVConverter(config_dict=['This isn', 't a dict'])
     # def test_simple_case(self):
     #     self.assertEqual()
 
