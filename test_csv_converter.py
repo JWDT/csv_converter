@@ -30,6 +30,13 @@ class MyTestCase(unittest.TestCase):
         with open(os.path.join(fo, 'valid-simple-new.csv')) as output_file:
             self.assertEqual(output_file.read(), output.replace('\r\n', '\n'))
 
+    def test_simple_out_of_order_case(self):
+        converter = CSVConverter(config_file=os.path.join(fo, 'valid-simple-header-change.json'))
+        output = converter.convert(input_file_name=os.path.join(fo, 'valid-simple-out-of-order.csv'))
+        with open(os.path.join(fo, 'valid-simple-new.csv')) as output_file:
+            self.assertEqual(output_file.read(), output.replace('\r\n', '\n'))
+
+
 
 if __name__ == '__main__':
     unittest.main()
