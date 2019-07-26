@@ -1,4 +1,5 @@
 {
+  "$input_config$": null,
   "New Header Zero": {
     "old_column": "Old Header Zero",
     "default": "DEFAULT FOR ZERO"

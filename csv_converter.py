@@ -13,6 +13,12 @@ class CSVConverter:
             with open(config_file_name) as json_file:
                 self.config = json.load(json_file)
         assert self.config
+        if '$input_config$' in self.config:
+            self.input_config = self.config.get('$input_config$')
+            del(self.config['$input_config$'])
+        if '$output_config$' in self.config:
+            self.output_config = self.config.get('$output_config$')
+            del(self.config['$output_config$'])
         logging.debug(f"Using config: {self.config}")
 
     def _process_complex_column(self, line: csv.OrderedDict, item: dict):
