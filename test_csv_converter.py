@@ -21,9 +21,15 @@ class MyTestCase(unittest.TestCase):
         with self.assertRaises(Exception):
             CSVConverter(config_file=os.path.join(fo, 'real-but-invalid.json'))
         with self.assertRaises(Exception):
+            # noinspection PyTypeChecker
             CSVConverter(config_dict=['This isn', 't a dict'])
-    # def test_simple_case(self):
-    #     self.assertEqual()
+
+    def test_simple_case(self):
+        converter = CSVConverter(config_file=os.path.join(fo, 'valid-simple-header-change.json'))
+        output = converter.convert(input_file_name=os.path.join(fo, 'valid-simple.csv'))
+        with open(os.path.join(fo, 'valid-simple-new.csv')) as output_file:
+            self.assertEqual(output_file.read(), output.replace('\r\n', '\n'))
+
 
 if __name__ == '__main__':
     unittest.main()
