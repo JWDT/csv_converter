@@ -27,6 +27,9 @@ class CSVConverter:
             "old_column": lambda a, b: a.get(b.get('old_column')) or None,
             "default, old_column": lambda a, b: a.get(b.get('old_column')) or b.get('default'),
             "default, lambda, old_column": None,
+            "default, lambda": None,
+            "lambda": None,
+            "lambda, old_column": None,
         }
         keys = list(item.keys())
         keys.sort()

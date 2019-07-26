@@ -5,14 +5,14 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="csv_converter",
-    version="0.0.1",
+    version="0.0.2",
     author="JWDT",
     author_email="pypi@johken.uk",
     description="Tool to convert CSV files based on JSON config.",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/JWDT/csv_converter",
-    packages=setuptools.find_packages(),
+    packages='.',
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
