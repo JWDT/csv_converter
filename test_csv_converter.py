@@ -42,6 +42,12 @@ class MyTestCase(unittest.TestCase):
         with open(os.path.join(fo, 'valid-simple-with-defaults.csv')) as output_file:
             self.assertEqual(output_file.read(), output.replace('\r\n', '\n'))
 
+    def test_simple_with_lambda(self):
+        converter = CSVConverter(config_file_name=os.path.join(fo, 'valid-simple-with-lambda.json'))
+        output = converter.convert(input_file_name=os.path.join(fo, 'valid-simple.csv'))
+        with open(os.path.join(fo, 'valid-simple-to-lower.csv')) as output_file:
+            self.assertEqual(output_file.read(), output.replace('\r\n', '\n'))
+
 
 if __name__ == '__main__':
     unittest.main()

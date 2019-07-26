@@ -16,15 +16,23 @@ class CSVConverter:
         logging.debug(f"Using config: {self.config}")
 
     def _process_complex_column(self, line: csv.OrderedDict, item: dict):
+        logging.basicConfig(level=logging.DEBUG)
         built_in_processors = {
             "old_column": lambda a, b: a.get(b.get('old_column')) or None,
             "default, old_column": lambda a, b: a.get(b.get('old_column')) or b.get('default'),
+            "default, lambda, old_column": None,
         }
         keys = list(item.keys())
         keys.sort()
         process_type = ', '.join(keys)
         logging.debug(f"Process type: {process_type}")
         if process_type in built_in_processors:
+            if "lambda" in item.keys():
+                try:
+                    exec(f"c = {item.get('lambda')}", globals())
+                    return c(line, item)
+                except:
+                    process_type = "default, old_column" if "default" in process_type else "old_column"
             return built_in_processors[process_type](line, item)
         pass
 

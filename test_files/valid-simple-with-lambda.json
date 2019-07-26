@@ -1,0 +1,23 @@
+{
+
+  "New Header One": {
+    "old_column": "Old Header One",
+    "default": "DEFAULT FOR ONE",
+    "lambda": "lambda a, b: str(a.get(b.get('old_column'))).lower()"
+  },
+  "New Header Two": {
+    "old_column": "Old Header Two",
+    "default": "DEFAULT FOR TWO",
+    "lambda": "lambda a, b: str(a.get(b.get('old_column'))).lower()"
+  },
+  "New Header Three": {
+    "old_column": "Old Header Three",
+    "default": "DEFAULT FOR THREE",
+    "lambda": "lambda a, b: str(a.get(b.get('old_column'))).lower()"
+  },
+  "New Header Four": {
+    "old_column": "Old Header Four",
+    "default": "DEFAULT FOR FOUR",
+    "lambda": "lambda a, b: str(a.get(b.get('old_column'))).lower()"
+  }
+}
