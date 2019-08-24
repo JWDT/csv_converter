@@ -1,0 +1,11 @@
+{
+
+  "New Header One": {
+    "old_column": "Old Header One",
+    "funlink": "test_funcs/func1"
+  },
+  "New Header Two": {
+    "old_column": "Old Header Two",
+    "funlink": "test_funcs/func2"
+  }
+}

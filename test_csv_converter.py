@@ -48,6 +48,12 @@ class MyTestCase(unittest.TestCase):
         with open(os.path.join(fo, 'valid-simple-to-lower.csv')) as output_file:
             self.assertEqual(output_file.read(), output.replace('\r\n', '\n'))
 
+    def test_simple_with_funlinks(self):
+        converter = CSVConverter(config_file_name=os.path.join(fo, 'valid-simple-with-funlink.json'))
+        output = converter.convert(input_file_name=os.path.join(fo, 'valid-simple.csv'))
+        with open(os.path.join(fo, 'valid-simple-double-digits.csv')) as correct_file:
+            self.assertEqual(correct_file.read(), output.replace('\r\n', '\n'))
+
 
 if __name__ == '__main__':
     unittest.main()
