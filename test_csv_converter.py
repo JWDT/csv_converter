@@ -30,6 +30,24 @@ class MyTestCase(unittest.TestCase):
         with open(os.path.join(fo, 'valid-simple-new.csv')) as output_file:
             self.assertEqual(output_file.read(), output.replace('\r\n', '\n'))
 
+    def test_simple_case_twice_no_append(self):
+        converter = CSVConverter(config_file_name=os.path.join(fo, 'valid-simple-header-change.json'))
+        output = converter.convert(input_file_name=os.path.join(fo, 'valid-simple.csv'))
+        with open(os.path.join(fo, 'valid-simple-new.csv')) as output_file:
+            self.assertEqual(output_file.read(), output.replace('\r\n', '\n'))
+        output = converter.convert(input_file_name=os.path.join(fo, 'valid-simple.csv'))
+        with open(os.path.join(fo, 'valid-simple-new.csv')) as output_file:
+            self.assertEqual(output_file.read(), output.replace('\r\n', '\n'))
+
+    def test_simple_case_twice_with_append(self):
+        converter = CSVConverter(config_file_name=os.path.join(fo, 'valid-simple-header-change.json'), append_mode=True)
+        output = converter.convert(input_file_name=os.path.join(fo, 'valid-simple.csv'))
+        with open(os.path.join(fo, 'valid-simple-new.csv')) as output_file:
+            self.assertEqual(output_file.read(), output.replace('\r\n', '\n'))
+        output = converter.convert(input_file_name=os.path.join(fo, 'valid-simple-two.csv'))
+        with open(os.path.join(fo, 'valid-simple-appended.csv')) as output_file:
+            self.assertEqual(output_file.read(), output.replace('\r\n', '\n'))
+
     def test_simple_out_of_order_case(self):
         converter = CSVConverter(config_file_name=os.path.join(fo, 'valid-simple-header-change.json'))
         output = converter.convert(input_file_name=os.path.join(fo, 'valid-simple-out-of-order.csv'))
@@ -54,6 +72,12 @@ class MyTestCase(unittest.TestCase):
         with open(os.path.join(fo, 'valid-simple-double-digits.csv')) as correct_file:
             self.assertEqual(correct_file.read(), output.replace('\r\n', '\n'))
 
+    def test_append_two_simple(self):
+        converter = CSVConverter(config_file_name=os.path.join(fo, 'valid-simple-header-change.json'))
+        output = converter.convert(input_file_name=[os.path.join(fo, 'valid-simple.csv'),
+                                                    os.path.join(fo, 'valid-simple-two.csv')])
+        with open(os.path.join(fo, 'valid-simple-appended.csv')) as correct_file:
+            self.assertEqual(correct_file.read(), output.replace('\r\n', '\n'))
 
 if __name__ == '__main__':
     unittest.main()
