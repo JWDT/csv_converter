@@ -57,4 +57,13 @@ Where `line` is the current line of the source CSV, and `item` is the current el
 from csv_converter import CSVConverter
 converter = CSVConverter(config_file_name='path-to-config.json')
 output = converter.convert(input_file_name='path-to-source.csv')
+
+# For multiple files, either feed them in as a list:
+output = converter.convert(input_file_name=['path-to-file-one.csv', 'path-to-file-two.csv'])
+
+#or re-use the same converter with the "append_mode" flag set to True -- this will make it remember all previous files
+converter = CSVConverter(config_file_name='path-to-config.json', append_mode=True)
+output_of_file_one = converter.convert(input_file_name='path-to-file-one.csv')
+output_of_file_one_and_two = converter.convert(input_file_name='path-to-file-two.csv')
+
 ```
