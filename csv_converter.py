@@ -28,11 +28,15 @@ class CSVConverter:
                 self.config = json.load(json_file)
         assert self.config
         if '$input_config$' in self.config:
-            self.input_config = self.config.get('$input_config$')
+            self.input_config = self.config.get('$input_config$') or {}
             del (self.config['$input_config$'])
+        else:
+            self.input_config = {}
         if '$output_config$' in self.config:
-            self.output_config = self.config.get('$output_config$')
+            self.output_config = self.config.get('$output_config$') or {}
             del (self.config['$output_config$'])
+        else:
+            self.output_config = {}
         logging.debug(f"Using config: {self.config}")
         self.output_headers = [header for header in self.config]
 
@@ -86,7 +90,29 @@ class CSVConverter:
             self.current_output_rows.append(output_line)
         return self.output_rows
 
+    def xlsx_to_dict_reader(self, input_file_name: str):
+        from openpyxl import load_workbook
+        wb = load_workbook(filename=input_file_name, read_only=True)
+        worksheets = []
+        for ws in wb:
+            rows = []
+            for row in ws.rows:
+                rows.append([cell.value for cell in row])
+            csv_stringio = io.StringIO()
+            csv.writer(csv_stringio).writerows(rows)
+            csv_stringio.seek(0)
+            if self.input_config.get('header_hints') or self.input_config.get('header_line_number'):
+                pass
+            worksheets.append(csv_stringio)
+        for worksheet in worksheets:
+            self.convert_dict_reader(csv.DictReader(worksheet))
+        wb.close()
+
+        pass
+
     def csv_to_dict_reader(self, input_file_name: str):
+        if input_file_name.endswith(".xlsx") or str(self.input_config.get('format')).lower() == "xlsx":
+            return self.xlsx_to_dict_reader(input_file_name)
         with open(input_file_name, 'r') as csv_file:
             csv_data = csv.DictReader(csv_file)
             return self.convert_dict_reader(csv_data)

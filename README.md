@@ -67,3 +67,35 @@ output_of_file_one = converter.convert(input_file_name='path-to-file-one.csv')
 output_of_file_one_and_two = converter.convert(input_file_name='path-to-file-two.csv')
 
 ```
+
+
+## Input Config
+
+This goes at the same level as the headers, with the special name "$input_config$"
+
+This supports setting the file format type. Useful if importing an xlsx file that for some reason doesn't have
+the right filename. Use `format` for this.
+
+Can also be used to specify which line the header is actually on.
+
+`header_line_number` is one indexed to line up with the numbers on spreadsheet software.
+
+`header_hints` is a list of strings that should match to help find the header.
+
+If both are specified, it will start looking for the header line on the line specified.
+
+```json
+{
+  "$input_config$": {
+      "format": "xlsx", // "ods" to be supported later.
+      "header_line_number": 3,
+      "header_hints": ["Old Header Zero", "Old Header One"],
+      "header_hints_in_order": null, // not implemented yet
+      "header_hints_together": null // not implemented yet
+  },
+  "New Header Zero": {
+    "old_column": "Old Header Zero",
+    "default": "DEFAULT FOR ZERO"
+  }
+}
+```
