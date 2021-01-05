@@ -1,0 +1,12 @@
+{
+  "$input_config$": {
+    "header_line_number": 3,
+    "header_hints": [
+      "Old Header One",
+      "Old Header Three"
+    ]
+  },
+  "New Header One": "Old Header One",
+  "New Header Two": "Old Header Two",
+  "New Header Three": "Old Header Three"
+}

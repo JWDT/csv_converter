@@ -1,0 +1,10 @@
+Unfortunately, the heading lines aren't on the first line of this one. :/
+
+Not even the third!
+
+They're actually on the seventh line (we're counting with a 1 index here)
+
+Old Header One,Old Header Two,Old Header Three,Old Header Four
+One,Two,Three,Four
+1,2,3,4
+Un,Deux,Trois,Quatre

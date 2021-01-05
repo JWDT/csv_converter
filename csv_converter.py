@@ -82,6 +82,24 @@ class CSVConverter:
         # output_line = csv.OrderedDict({'Test': 'tval', 'Bla': 'Frog'})
         return output_line
 
+    def _remove_junk_before_headers(self, csv_file):
+        new_csv_file = io.StringIO()
+        found_header = False if self.input_config.get('header_hints') else True
+        for line_number, line in enumerate(csv_file):
+            if self.input_config.get('header_line_number') and line_number < int(self.input_config.get('header_line_number')) - 1:
+                continue
+            if not found_header:
+                found_headers = 0
+                for hint in self.input_config.get('header_hints'):
+                    if hint in line:
+                        found_headers += 1
+                found_header = True if found_headers == len(self.input_config.get('header_hints')) else False
+                if not found_header:
+                    continue
+            new_csv_file.write(line)
+        new_csv_file.seek(0)
+        return new_csv_file
+
     def convert_dict_reader(self, input_dict: csv.DictReader):
         for line in input_dict:
             output_line = self._convert_line(line)
@@ -102,18 +120,18 @@ class CSVConverter:
             csv.writer(csv_stringio).writerows(rows)
             csv_stringio.seek(0)
             if self.input_config.get('header_hints') or self.input_config.get('header_line_number'):
-                pass
+                csv_stringio = self._remove_junk_before_headers(csv_stringio)
             worksheets.append(csv_stringio)
         for worksheet in worksheets:
             self.convert_dict_reader(csv.DictReader(worksheet))
         wb.close()
 
-        pass
-
     def csv_to_dict_reader(self, input_file_name: str):
         if input_file_name.endswith(".xlsx") or str(self.input_config.get('format')).lower() == "xlsx":
             return self.xlsx_to_dict_reader(input_file_name)
         with open(input_file_name, 'r') as csv_file:
+            if self.input_config.get('header_hints') or self.input_config.get('header_line_number'):
+                csv_file = self._remove_junk_before_headers(csv_file)
             csv_data = csv.DictReader(csv_file)
             return self.convert_dict_reader(csv_data)
 
@@ -131,3 +149,4 @@ class CSVConverter:
             if not self.append_mode:
                 self.refresh()
             return output_file.read()
+
