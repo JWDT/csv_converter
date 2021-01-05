@@ -91,5 +91,12 @@ class MyTestCase(unittest.TestCase):
         with open(os.path.join(fo, 'valid-simple-new.csv')) as output_file:
             self.assertEqual(output_file.read(), output.replace('\r\n', '\n'))
 
+    def test_xlsx_simple_case_with_junk_before_heading(self):
+        converter = CSVConverter(config_file_name=os.path.join(fo, 'valid-simple-header-change-with-hints.json'))
+        output = converter.convert(input_file_name=os.path.join(fo, 'valid-simple-with-junk-before-heading.xlsx'))
+        with open(os.path.join(fo, 'valid-simple-new.csv')) as output_file:
+            self.assertEqual(output_file.read(), output.replace('\r\n', '\n'))
+
+
 if __name__ == '__main__':
     unittest.main()

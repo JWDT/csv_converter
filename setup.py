@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="csv_converter",
-    version="0.0.5",
+    version="0.0.6",
     author="JWDT",
     author_email="pypi@zephyr.ltd.uk",
     description="Tool to convert CSV files based on JSON config.",
