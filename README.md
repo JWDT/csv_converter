@@ -1,4 +1,4 @@
-A simple tool that uses a JSON config file (or a config dict) to convert one CSV to another.
+A simple tool that uses a JSON config file (or a config dict) to convert one CSV to another. Tested up to Python 3.8.
 
 Simplest use case is to just list the new headers and link them to the old headers, like so:
 

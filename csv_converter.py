@@ -3,6 +3,7 @@ import io
 import json
 import logging
 import importlib
+from collections import OrderedDict
 
 
 class CSVConverter:
@@ -40,13 +41,13 @@ class CSVConverter:
         logging.debug(f"Using config: {self.config}")
         self.output_headers = [header for header in self.config]
 
-    def _process_func_link(self, new_heading: str, line: csv.OrderedDict, mod_func_str: str):
+    def _process_func_link(self, new_heading: str, line: OrderedDict, mod_func_str: str):
         module_name, func_name = mod_func_str.split('/')
         module = importlib.import_module(module_name)
         func = getattr(module, func_name)
         return func(new_heading, line, self.previous_input_rows, self.current_output_rows)
 
-    def _process_complex_column(self, column_heading: str, line: csv.OrderedDict, item: dict):
+    def _process_complex_column(self, column_heading: str, line: OrderedDict, item: dict):
         logging.basicConfig(level=logging.DEBUG)
 
         # the dict can have have these keys: old_column, default, lambda, funlink
@@ -71,7 +72,7 @@ class CSVConverter:
         return item_output
 
     def _convert_line(self, line):
-        output_line = csv.OrderedDict()
+        output_line = OrderedDict()
         for new_heading, options in self.config.items():
             if isinstance(options, str):
                 item_output = line.get(options)
