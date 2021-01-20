@@ -18,16 +18,18 @@ class CSVConverter:
         self.output_rows = []
 
     def __init__(self, config_json: str = None, config_file_name: str = None, config_dict: dict = None,
-                 append_mode=False):
+                 append_mode=False, no_config=False):
         """append_mode - used when appending multiple files across different sessions. This will not automatically
         run the self.refresh() command at the end of a conversion."""
         self.config = dict(config_dict) if config_dict else json.loads(config_json) if config_json else None
         self.append_mode = append_mode
         self.refresh()
-        if not self.config:
+        if not self.config and config_file_name:
             with open(config_file_name) as json_file:
                 self.config = json.load(json_file)
-        assert self.config
+        elif no_config:
+            self.config = {'$input_config$': None}
+        assert self.config, "No Config Provided (if only using json generator set 'no_config' to False)"
         if '$input_config$' in self.config:
             self.input_config = self.config.get('$input_config$') or {}
             del (self.config['$input_config$'])
@@ -150,4 +152,24 @@ class CSVConverter:
             if not self.append_mode:
                 self.refresh()
             return output_file.read()
+
+    def generate_json_headers(self, input_file_name: str, output_file_name: str=None, return_dict=True):
+        """Currently only works with CSV files. Runs _remove_junk_before_headers on the file then uses the first
+        line to generate the JSON file."""
+
+        with open(input_file_name, 'r') as csv_file:
+            dict_reader = csv.DictReader(self._remove_junk_before_headers(csv_file=csv_file))
+            for row in dict_reader:
+                headers = row.keys()
+                break
+
+        json_headers = {}
+        for header in headers:
+            json_headers[header] = {"old_column": header}
+        if output_file_name:
+            with open(output_file_name, 'w+') as output_file:
+                json.dump(json_headers, output_file)
+        if return_dict:
+            return json_headers
+        return True
 

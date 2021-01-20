@@ -99,3 +99,19 @@ If both are specified, it will start looking for the header line on the line spe
   }
 }
 ```
+
+
+## JSON Config Generator
+
+A basic config can be generated from a template csv file. This is useful for example 
+when importing product data to a shop. Simply run:
+
+```python
+from csv_converter import CSVConverter
+CSVConverter(no_config=True).generate_json_headers(input_file_name="import-template.csv",
+                                                   output_file_name="import-config.json")
+```
+
+This will create a file called "import-config.json" that will map all the headers in 
+"import-template.csv" to themselves, allowing you to easily go through each one and 
+change the "old_column" values where needed to match your raw data.
